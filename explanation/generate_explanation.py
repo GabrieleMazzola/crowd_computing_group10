@@ -1,5 +1,7 @@
-class GenerateExplanation:
+from explanation.scoring import calculate_score
 
+
+class GenerateExplanation:
     # output :explanations
     # attr_accessor :explanations,
     #               :max_score,
@@ -13,40 +15,49 @@ class GenerateExplanation:
     #               :scenario
     # Sequence has both scenario and ranking retrieved from RS
 
-    def  __init__(self, sequence, people):
+    MAX_POI_SCORE = 5
+
+    def __init__(self, sequence, people):
         self.scenario = sequence["scenario"]
         self.ranking = sequence["ranking"]
-        self.max_score = len(sequence["ranking"]) * 10
+        self.max_score = self.calculate_max_score(len(sequence["ranking"]))
         self.people = people
+        self.explanations = {}
 
     def generate_explanation(self):
         for person in self.people:
             self.generate_personal_explanation(person)
 
-    def calculate_scores(self,person):
-        # iterate over pois in ranking
-        # for each poi compare ranking
+    def calculate_max_score(self, number_of_poi):
+        ## TODO:
+        return self.MAX_POI_SCORE * number_of_poi
+
+    def calculate_scores(self, person):
+        score_list ={}
+        for poi in self.ranking:
+            score_list[poi.name]=calculate_score(person,poi)
+        return score_list
 
     def generate_personal_explanation(self, person):
-        person_scores = Score.where(person: person, point_of_interest: points)
+        person_scores = self.calculate_scores(person)
         explanation = ''
 
-        person_score = person_scores.sum( &:score)
-        relative_score = person_score.to_f / max_score
+        person_score = person_scores.sum(person_scores)
+        relative_score = person_score / self.max_score
 
-        explanation += generate_opening(name: person.name)
-        explanation += generate_overall_satisfaction(relative_score: relative_score)
-        explanation += generate_negative_explanation(person: person)
-        explanation += generate_positive_explanation(person: person)
+        explanation += self.generate_opening(person.name)
+        explanation += self.generate_overall_satisfaction(relative_score)
+        explanation += self.generate_negative_explanation(person)
+        explanation += generate_positive_explanation(person)
 
-        explanations[person.name] = explanation
+        self.explanations[person.name] = explanation
 
-    end
+    def generate_opening(name='"X")
+        opening = Dictionary
 
-    def generate_opening(name: 'person')
-        opening = Dictionary::BEGIN_END_SENTENCES[:intro_hi].sample
-        opening += name + ', '
-        opening + Dictionary::BEGIN_END_SENTENCES[:intro_word].sample.downcase
+    ::BEGIN_END_SENTENCES[:intro_hi].sample
+    opening += name + ', '
+    opening + Dictionary::BEGIN_END_SENTENCES[:intro_word].sample.downcase
 
     end
 
