@@ -1,18 +1,13 @@
-from explanation.scoring import calculate_score
+import copy
+
+from explanation.dictionary import Dictionary
+from explanation.util.satisfaction_util import satisfaction_level
+import numpy as np
+
+from explanation.util.score_util import Score
 
 
 class GenerateExplanation:
-    # output :explanations
-    # attr_accessor :explanations,
-    #               :max_score,
-    #               :points,
-    #               :people,
-    #               :person,
-    #               :person_name,
-    #               :person_score,
-    #               :points,
-    #               :relative_score,
-    #               :scenario
     # Sequence has both scenario and ranking retrieved from RS
 
     MAX_POI_SCORE = 5
@@ -20,7 +15,7 @@ class GenerateExplanation:
     def __init__(self, sequence, people):
         self.scenario = sequence["scenario"]
         self.ranking = sequence["ranking"]
-        self.max_score = self.calculate_max_score(len(sequence["ranking"]))
+        self.max_score = Score.calculate_max_score(len(sequence["ranking"]))
         self.people = people
         self.explanations = {}
 
@@ -28,136 +23,75 @@ class GenerateExplanation:
         for person in self.people:
             self.generate_personal_explanation(person)
 
-    def calculate_max_score(self, number_of_poi):
-        ## TODO:
-        return self.MAX_POI_SCORE * number_of_poi
-
-    def calculate_scores(self, person):
-        score_list ={}
-        for poi in self.ranking:
-            score_list[poi.name]=calculate_score(person,poi)
-        return score_list
-
     def generate_personal_explanation(self, person):
-        person_scores = self.calculate_scores(person)
+        person_scores = Score.calculate_scores(self.ranking, person)
         explanation = ''
 
-        person_score = person_scores.sum(person_scores)
+        person_score = np.sum(person_scores)
         relative_score = person_score / self.max_score
 
         explanation += self.generate_opening(person.name)
         explanation += self.generate_overall_satisfaction(relative_score)
-        explanation += self.generate_negative_explanation(person)
-        explanation += generate_positive_explanation(person)
+        explanation += self.generate_negative_explanation(person, person_scores)
+        explanation += self.generate_positive_explanation(person)
 
         self.explanations[person.name] = explanation
 
-    def generate_opening(name='"X")
-        opening = Dictionary
+    def generate_opening(self, name="X"):
+        opening = np.random.choice(Dictionary.BEGIN_END_SENTENCES["intro_hi"])
+        opening += name + ', '
+        opening += np.random.choice(Dictionary.BEGIN_END_SENTENCES["intro_word"])
+        return opening
 
-    ::BEGIN_END_SENTENCES[:intro_hi].sample
-    opening += name + ', '
-    opening + Dictionary::BEGIN_END_SENTENCES[:intro_word].sample.downcase
-
-    end
-
-    def generate_overall_satisfaction(relative_score:)
+    def generate_overall_satisfaction(self, relative_score):
         sentiment = satisfaction_level(relative_score)
-        sentence = Dictionary::OPENING_SENTENCES[sentiment].sample.downcase
-        sentence + 'the recommended sequence. '
+        sentence = np.random.choice(Dictionary.OPENING_SENTENCES[sentiment])
+        sentence += 'the recommended sequence. '
+        return sentence
 
-    end
+    def generate_negative_explanation(self, person, person_scores):
+        sentence = ""
+        # take the POI which was ranked the lowest by you
+        lowest_score_poi, lowest_score = Score.get_the_lowest_score(person)
 
-    def generate_negative_explanation(person:)
-        sentence = ''
-        lowest_score = Score.where(person: person, point_of_interest: points).order('score ASC').first
-        if lowest_score.score > 5
-            ''
-        else
-            relative_lowest = lowest_score.score.to_f / 10
+        if lowest_score > 5:
+            return ""
+        else:
+            relative_lowest = lowest_score / 10
             sentiment = satisfaction_level(relative_lowest)
-            sentence += Dictionary::OPENING_SENTENCES[sentiment].sample
-            sentence += lowest_score.point_of_interest.name
-            sentence += Dictionary::BEGIN_END_SENTENCES[:but_info].sample.downcase
+            sentence += np.random.choice(Dictionary.OPENING_SENTENCES[sentiment])
+            sentence += lowest_score_poi
+            sentence += np.random.choice(Dictionary.BEGIN_END_SENTENCES["but_info"])
 
-            other_score = Score.where.
-            not (person: person)
-            .where(point_of_interest: lowest_score.point_of_interest)
-            .order('score DESC')
-            .first
+            other_people = copy.deepcopy(self.people)
+            other_people.remove(person)
+            other_score, other_person = Score.get_the_highest_other_score_poi(other_people, lowest_score_poi)
+
+            # score of the other person who rated highest POI which was rated lowest by you
+            other_sentiment = satisfaction_level(other_score / 10)
+
+            sentence += np.random.choice(Dictionary.OTHERS[other_sentiment]).replace('<<NAMES>>',
+                                                                                     other_person)
+            sentence += lowest_score_poi + ', '
+            sentence += np.random.choice(Dictionary.BEGIN_END_SENTENCES["come_on"]) + '. '
+
+        return sentence
+
+    def generate_positive_explanation(self, person):
+        sentence = ''
+        highest_score, favorite_item = Score.get_highest_score(person)
+        ##
+        ## TODO: This indicates that in final ranking may not be all POI. discuss with a group
+        # unless points.include?(highest_score.point_of_interest.id)
+        sentence += np.random.choice(Dictionary.BEGIN_END_SENTENCES["favorite"]).replace('<<NAME>>', favorite_item)
+        sentence += 'and ' + np.random.choice(Dictionary.BEGIN_END_SENTENCES["not_included"])
+        sentence += np.random.choice(Dictionary.BEGIN_END_SENTENCES["but_info"])
+
+        other_people = copy.deepcopy(self.people)
+        other_people.remove(person)
+        other_score, other_person = Score.get_the_lowest_other_score_poi(other_people, favorite_item)
         other_sentiment = satisfaction_level(other_score.score.to_f / 10)
 
-        sentence += Dictionary::OTHERS[other_sentiment].sample.gsub('<<NAMES>>', other_score.person.name)
-        sentence += lowest_score.point_of_interest.name + ', '
-        sentence += Dictionary::BEGIN_END_SENTENCES[:come_on].sample + '. '
-
-    end
-    sentence
-
-
-end
-
-
-def generate_positive_explanation(person:)
-    sentence = ''
-    highest_score = Score.where(person: person).order('score DESC').first
-    favorite_item = highest_score.point_of_interest
-
-    unless
-    points.include?(highest_score.point_of_interest.id)
-    sentence += Dictionary::BEGIN_END_SENTENCES[:favorite].sample.gsub('<<NAME>>', favorite_item.name)
-    sentence += 'and ' + Dictionary::BEGIN_END_SENTENCES[:not_included].sample
-    sentence.strip!
-    sentence += Dictionary::BEGIN_END_SENTENCES[:but_info].sample.downcase
-
-    other_score = Score.where.
-    not (person: person).where(point_of_interest: favorite_item).order('score ASC').first
-    other_sentiment = satisfaction_level(other_score.score.to_f / 10)
-
-    sentence += Dictionary::OTHERS[other_sentiment].sample.gsub('<<NAMES>>', other_score.person.name)
-    sentence += favorite_item.name + ', '
-    sentence += Dictionary::BEGIN_END_SENTENCES[:reason_not_included].sample.downcase
-
-
-end
-
-sentence
-end
-
-
-def satisfaction_level(score)
-    case
-    score
-    when
-    0.00.
-    .0
-    .17
-    :very_weak
-
-
-when
-0.17.
-.0
-.34
-:weak
-when
-0.34.
-.0
-.51
-:indifferent
-when
-0.51.
-.0
-.68
-:medium
-when
-0.68.
-.0
-.85
-:strong
-else
-:very_strong
-end
-end
-end
-end
+        sentence += np.random.choice(Dictionary.OTHERS[other_sentiment]).replace('<<NAMES>>', other_person)
+        sentence += favorite_item.name + ', '
+        sentence += np.random.choice(Dictionary.BEGIN_END_SENTENCES["reason_not_included"])
