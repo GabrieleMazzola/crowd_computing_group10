@@ -48,6 +48,7 @@ ordered_recommended_pois = [poi3, poi2, poi4, poi1, poi6, poi5]
 ge = GenerateExplanation(pois=list_pois, ratings=ordered_recommended_pois, people=users)
 
 ge.generate_explanation()
+print(ge.explanations)
 
 
 

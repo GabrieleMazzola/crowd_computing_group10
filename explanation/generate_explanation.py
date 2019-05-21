@@ -80,7 +80,7 @@ class GenerateExplanation:
 
     def generate_positive_explanation(self, person):
         sentence = ''
-        highest_score, favorite_item = Score.get_highest_score(person)
+        favorite_item, highest_score = Score.get_highest_score(person)
         ##
         ## TODO: This indicates that in final ranking may not be all POI. discuss with a group
         # unless points.include?(highest_score.point_of_interest.id)
@@ -91,8 +91,10 @@ class GenerateExplanation:
         other_people = copy.deepcopy(self.people)
         other_people.remove(person)
         other_score, other_person = Score.get_the_lowest_other_score_poi(other_people, favorite_item)
-        other_sentiment = satisfaction_level(other_score.score.to_f / 10)
+        other_sentiment = satisfaction_level(float(other_score) / 10)
 
         sentence += np.random.choice(Dictionary.OTHERS[other_sentiment]).replace('<<NAMES>>', other_person)
-        sentence += favorite_item.name + ', '
+        sentence += favorite_item + ', '
         sentence += np.random.choice(Dictionary.BEGIN_END_SENTENCES["reason_not_included"])
+        
+        return sentence
