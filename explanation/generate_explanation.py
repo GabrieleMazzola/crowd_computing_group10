@@ -3,7 +3,7 @@ import copy
 from explanation.dictionary import Dictionary
 from explanation.explanation_type import ExplanationType
 from explanation.person.closeness import Closeness
-from explanation.util.satisfaction_util import satisfaction_level
+from explanation.util.satisfaction_util import satisfaction_level, satisfaction_level_user
 from explanation.scoring import calculate_score
 import numpy as np
 
