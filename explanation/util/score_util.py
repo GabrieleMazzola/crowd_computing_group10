@@ -1,11 +1,8 @@
-from explanation.scoring import calculate_score
 from explanation.scoring import retrieve_personal_score
 
 
 class Score:
     MAX_POI_SCORE = 10
-    POSITIVE_LIMIT = 7
-    NEGATIVE_LIMIT = 3
 
     @staticmethod
     def get_the_highest_other_score_poi(people, poi_name):
