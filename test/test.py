@@ -49,7 +49,7 @@ ge = GenerateExplanation(pois=list_pois, ratings=ordered_recommended_pois, peopl
 
 ge.generate_explanation()
 for key,explanation in ge.explanations.items():
-    print(key,explanation)
+    print(key + " --> " + explanation)
 
 
 

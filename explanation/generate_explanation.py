@@ -1,7 +1,7 @@
 import copy
 
 from explanation.dictionary import Dictionary
-from explanation.util.satisfaction_util import satisfaction_level
+from explanation.util.satisfaction_util import satisfaction_level, satisfaction_level_user
 from explanation.scoring import calculate_score
 import numpy as np
 
@@ -45,7 +45,7 @@ class GenerateExplanation:
         return opening
 
     def generate_overall_satisfaction(self, relative_score):
-        sentiment = satisfaction_level(relative_score)
+        sentiment = satisfaction_level_user(relative_score, len(self.ranking))
         sentence = np.random.choice(Dictionary.OPENING_SENTENCES[sentiment])
         sentence += 'the recommended sequence. '
         return sentence
@@ -91,7 +91,7 @@ class GenerateExplanation:
         other_people = copy.deepcopy(self.people)
         other_people.remove(person)
         other_score, other_person = Score.get_the_lowest_other_score_poi(other_people, favorite_item)
-        other_sentiment = satisfaction_level(float(other_score) / 10)
+        other_sentiment = satisfaction_level(float(other_score)/10)
 
         sentence += np.random.choice(Dictionary.OTHERS[other_sentiment]).replace('<<NAMES>>', other_person)
         sentence += favorite_item + ', '
