@@ -1,9 +1,9 @@
-from explanation.person.age_group import AgeGroup
-
-
 class Person:
+
     # sorted ranking of points
     poi_ranking = {}
     relationships = {}
-    name = "Adam"
-    age_group = AgeGroup.MILENIALS
+    # TODO: implement the relationship as defined in the end
+
+    def __init__(self, name):
+        self.name = name

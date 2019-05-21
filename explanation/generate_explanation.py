@@ -2,6 +2,7 @@ import copy
 
 from explanation.dictionary import Dictionary
 from explanation.util.satisfaction_util import satisfaction_level
+from explanation.scoring import calculate_score
 import numpy as np
 
 from explanation.util.score_util import Score
@@ -10,12 +11,12 @@ from explanation.util.score_util import Score
 class GenerateExplanation:
     # Sequence has both scenario and ranking retrieved from RS
 
-    MAX_POI_SCORE = 5
+    MAX_POI_SCORE = 10
 
-    def __init__(self, sequence, people):
-        self.scenario = sequence["scenario"]
-        self.ranking = sequence["ranking"]
-        self.max_score = Score.calculate_max_score(len(sequence["ranking"]))
+    def __init__(self, pois, ratings, people):
+        self.scenario = pois
+        self.ranking = ratings
+        self.max_score = Score.calculate_max_score(len(ratings))
         self.people = people
         self.explanations = {}
 
@@ -28,7 +29,7 @@ class GenerateExplanation:
         explanation = ''
 
         person_score = np.sum(person_scores)
-        relative_score = person_score / self.max_score
+        relative_score = calculate_score(person, self.ranking)
 
         explanation += self.generate_opening(person.name)
         explanation += self.generate_overall_satisfaction(relative_score)

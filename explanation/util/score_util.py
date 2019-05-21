@@ -1,8 +1,9 @@
 from explanation.scoring import calculate_score
+from explanation.scoring import retrieve_personal_score
 
 
 class Score:
-    MAX_POI_SCORE = 5
+    MAX_POI_SCORE = 10
 
     @staticmethod
     def get_the_highest_other_score_poi(people, poi_name):
@@ -53,7 +54,7 @@ class Score:
 
     @staticmethod
     def calculate_scores(ranking, person):
-        score_list = {}
+        score_list = []
         for poi in ranking:
-            score_list[poi.name] = calculate_score(person, poi)
+            score_list.append(retrieve_personal_score(person, poi))
         return score_list
