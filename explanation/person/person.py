@@ -1,11 +1,19 @@
+from explanation.person.closeness import Closeness
+
+
 class Person:
 
-    # sorted ranking of points
-    poi_ranking = {}
-    relationships = {}
-    # TODO: implement the relationship as defined in the end
-
     def __init__(self, name):
+        self.poi_ranking = {}
+        self.relationships = {}
         self.name = name
-    def __eq__(self,obj):
+
+    def __eq__(self, obj):
         return self.name == obj.name
+
+    def add_relationship(self, person, closeness_level=Closeness.DISTANT):
+        self.relationships[person.name] = closeness_level
+
+    def add_dummy_relationships(self, people):
+        for person in people:
+            self.add_relationship(person)
