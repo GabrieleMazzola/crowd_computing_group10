@@ -11,7 +11,7 @@ class Person:
     def __eq__(self, obj):
         return self.name == obj.name
 
-    def add_relationship(self, person, closeness_level=Closeness.DISTANT):
+    def add_relationship(self, person, closeness_level=Closeness.VERY_CLOSE):
         self.relationships[person.name] = closeness_level
 
     def add_dummy_relationships(self, people):

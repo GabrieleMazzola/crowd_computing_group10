@@ -15,12 +15,13 @@ class GenerateExplanation:
 
     MAX_POI_SCORE = 10
 
-    def __init__(self, pois, ratings, people):
+    def __init__(self, pois, ratings, people, explanation_type):
         self.scenario = pois
         self.ranking = ratings
         self.max_score = Score.calculate_max_score(len(ratings))
         self.people = people
         self.explanations = {}
+        self.explanation_type = explanation_type
 
     def generate_explanation(self):
         for person in self.people:
@@ -105,20 +106,20 @@ class GenerateExplanation:
 
         return sentence
 
-    def possibly_anonymize_person(self, target_person, person_name_list, explanation_type=ExplanationType.ANONYMOUS):
+    def possibly_anonymize_person(self, target_person, person_name_list):
         close_person_list, num_distant_people = self.prepare_close_people(target_person, person_name_list)
         num_all_people = len(person_name_list)
 
-        if explanation_type == ExplanationType.ANONYMOUS:
+        if self.explanation_type == ExplanationType.ANONYMOUS:
             if num_all_people > 1:
                 return "some people from the group"
             return "someone from the group"
 
-        if explanation_type == ExplanationType.ANONYMOUS_GROUP:
+        if self.explanation_type == ExplanationType.ANONYMOUS_GROUP:
             if num_all_people > 1:
                 return str(num_all_people) + " people from the group"
             return "one person from the group"
-        if explanation_type == ExplanationType.PERSON_ONLY:
+        if self.explanation_type == ExplanationType.PERSON_ONLY:
             return self.create_label_person_group(close_person_list, num_distant_people, person_only=True)
 
         # Lastly create explanation having both close persons and anonymized not close ones
@@ -127,7 +128,7 @@ class GenerateExplanation:
     def prepare_close_people(self, target_person, person_name_list):
         close_people = [person for person in person_name_list if
                         target_person.relationships[person] == Closeness.VERY_CLOSE]
-        return close_people, len(person_name_list) - len(close_people)
+        return list(set(close_people)), len(person_name_list) - len(close_people)
 
     def create_label_person_group(self, close_person_list, distant_people_num, person_only=False):
         people_word_label = ""

@@ -49,7 +49,7 @@ p6.poi_ranking = {'McDonald':6, 'Burger King':8, 'Pizza':10, 'Gelateria':4, 'Fag
 # hard-coded
 ordered_recommended_pois = [poi3, poi2, poi4, poi1, poi6, poi5]
 
-ge = GenerateExplanation(pois=list_pois, ratings=ordered_recommended_pois, people=users)
+ge = GenerateExplanation(pois=list_pois, ratings=ordered_recommended_pois, people=users,explanation_type=ExplanationType.PERSON_ONLY)
 
 ge.generate_explanation()
 for key,explanation in ge.explanations.items():
