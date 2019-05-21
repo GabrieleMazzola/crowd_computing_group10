@@ -4,28 +4,37 @@ from explanation.scoring import retrieve_personal_score
 
 class Score:
     MAX_POI_SCORE = 10
+    POSITIVE_LIMIT = 7
+    NEGATIVE_LIMIT = 3
 
     @staticmethod
     def get_the_highest_other_score_poi(people, poi_name):
         curr_highest_score = 0
-        curr_highest_person = ""
+        highest_people = []
+
         for person in people:
             if curr_highest_score < person.poi_ranking[poi_name]:
                 curr_highest_score = person.poi_ranking[poi_name]
-                curr_highest_person = person.name
+                highest_people = [person.name]
 
-        return curr_highest_score, curr_highest_person
+            if curr_highest_score == person.poi_ranking[poi_name]:
+                highest_people.append(person.name)
+
+        return curr_highest_score, highest_people
 
     @staticmethod
     def get_the_lowest_other_score_poi(people, poi_name):
         curr_lowest_score = 0
-        curr_lowest_person = ""
+        lowest_people = []
         for person in people:
             if curr_lowest_score < person.poi_ranking[poi_name]:
                 curr_lowest_score = person.poi_ranking[poi_name]
-                curr_lowest_person = person.name
+                lowest_people = [person.name]
 
-        return curr_lowest_score, curr_lowest_person
+            if curr_lowest_score == person.poi_ranking[poi_name]:
+                lowest_people.append(person.name)
+
+        return curr_lowest_score, lowest_people
 
     @staticmethod
     def get_the_lowest_score(person):

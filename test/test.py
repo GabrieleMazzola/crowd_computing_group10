@@ -17,6 +17,10 @@ users.append(p5)
 p6 = Person("Vanessa")
 users.append(p6)
 
+for u in users:
+    u.add_dummy_relationships(users)
+
+
 
 list_pois = []
 
