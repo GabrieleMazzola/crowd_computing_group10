@@ -4,10 +4,10 @@ from explanation.dictionary import Dictionary
 from explanation.explanation_type import ExplanationType
 from explanation.person.closeness import Closeness
 from explanation.util.satisfaction_util import satisfaction_level, satisfaction_level_user
-from explanation.scoring import calculate_score
 import numpy as np
 
 from explanation.util.score_util import Score
+from explanation.util.util import print_ordered_list
 
 
 class GenerateExplanation:
@@ -25,6 +25,7 @@ class GenerateExplanation:
 
     def generate_explanation(self):
         for person in self.people:
+            print_ordered_list(person)
             self.generate_personal_explanation(person)
 
     def generate_personal_explanation(self, person):
@@ -32,7 +33,7 @@ class GenerateExplanation:
         explanation = ''
 
         person_score = np.sum(person_scores)
-        relative_score = calculate_score(person, self.ranking)
+        relative_score = Score.calculate_score(person, self.ranking)
 
         explanation += self.generate_opening(person.name)
         explanation += self.generate_overall_satisfaction(relative_score)
@@ -58,7 +59,7 @@ class GenerateExplanation:
         # take the POI which was ranked the lowest by you
         lowest_score_poi, lowest_score = Score.get_the_lowest_score(person)
 
-        if lowest_score > 5:
+        if lowest_score > 2:
             return ""
 
         relative_lowest = lowest_score / 10
@@ -90,7 +91,11 @@ class GenerateExplanation:
         ## TODO: This indicates that in final ranking may not be all POI. discuss with a group
         # unless points.include?(highest_score.point_of_interest.id)
         sentence += np.random.choice(Dictionary.BEGIN_END_SENTENCES["favorite"]).replace('<<NAME>>', favorite_item)
-        sentence += 'and ' + np.random.choice(Dictionary.BEGIN_END_SENTENCES["not_included"])
+
+        # say something in the case some place is not included
+        # TODO: we should check if the left out is the favorite of the person. If not we should have something different
+        if(len(self.ranking) < len(self.scenario)):
+            sentence += 'and ' + np.random.choice(Dictionary.BEGIN_END_SENTENCES["not_included"])
         sentence += np.random.choice(Dictionary.BEGIN_END_SENTENCES["but_info"])
 
         other_people = copy.deepcopy(self.people)
@@ -119,6 +124,7 @@ class GenerateExplanation:
             if num_all_people > 1:
                 return str(num_all_people) + " people from the group"
             return "one person from the group"
+
         if self.explanation_type == ExplanationType.PERSON_ONLY:
             return self.create_label_person_group(close_person_list, num_distant_people, person_only=True)
 
