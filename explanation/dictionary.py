@@ -17,7 +17,7 @@ class Dictionary:
         "trust_negative_end": ['so you may find something new ', 'and you can normally rely on '],
         "favorite": ['We know <<NAME>> is your favorite ', 'We know you love <<NAME>> ',
                      'We know your top choice has been <<NAME>> '],
-        "not_included": ['it is not included in the recommendation '],
+        "not_included": ['it is not included in the recommendation'],
         "reason_not_included": ['so it was left out to maximize group satisfaction']
     }
 

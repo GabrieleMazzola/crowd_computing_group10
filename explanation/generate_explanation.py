@@ -25,7 +25,7 @@ class GenerateExplanation:
 
     def generate_explanation(self):
         for person in self.people:
-            print_ordered_list(person)
+            # print_ordered_list(person)
             self.generate_personal_explanation(person)
 
     def generate_personal_explanation(self, person):
@@ -45,12 +45,12 @@ class GenerateExplanation:
     def generate_opening(self, name="X"):
         opening = np.random.choice(Dictionary.BEGIN_END_SENTENCES["intro_hi"])
         opening += name + ', '
-        opening += np.random.choice(Dictionary.BEGIN_END_SENTENCES["intro_word"])
+        opening += np.random.choice(Dictionary.BEGIN_END_SENTENCES["intro_word"]).lower()
         return opening
 
     def generate_overall_satisfaction(self, relative_score):
         sentiment = satisfaction_level_user(relative_score, len(self.ranking))
-        sentence = np.random.choice(Dictionary.OPENING_SENTENCES[sentiment])
+        sentence = np.random.choice(Dictionary.OPENING_SENTENCES[sentiment]).lower()
         sentence += 'the recommended sequence. '
         return sentence
 
@@ -59,28 +59,31 @@ class GenerateExplanation:
         # take the POI which was ranked the lowest by you
         lowest_score_poi, lowest_score = Score.get_the_lowest_score(person)
 
-        if lowest_score > 6:
-            return ""
+        ranking_strings = [elem.name for elem in self.ranking]
 
-        relative_lowest = lowest_score / 10
-        sentiment = satisfaction_level(relative_lowest)
-        sentence += np.random.choice(Dictionary.OPENING_SENTENCES[sentiment])
-        sentence += lowest_score_poi
-        sentence += np.random.choice(Dictionary.BEGIN_END_SENTENCES["but_info"]).lower()
+        if lowest_score_poi in ranking_strings:
+            if lowest_score > 6:
+                return ""
 
-        other_people = copy.deepcopy(self.people)
-        other_people.remove(person)
-        other_score, other_person = Score.get_the_highest_other_score_poi(other_people, lowest_score_poi)
+            relative_lowest = lowest_score / 10
+            sentiment = satisfaction_level(relative_lowest)
+            sentence += np.random.choice(Dictionary.OPENING_SENTENCES[sentiment])
+            sentence += lowest_score_poi
+            sentence += np.random.choice(Dictionary.BEGIN_END_SENTENCES["but_info"]).lower()
 
-        other_person = self.possibly_anonymize_person(person, other_person)
+            other_people = copy.deepcopy(self.people)
+            other_people.remove(person)
+            other_score, other_person = Score.get_the_highest_other_score_poi(other_people, lowest_score_poi)
 
-        # score of the other person who rated highest POI which was rated lowest by you
-        other_sentiment = satisfaction_level(other_score / 10)
+            other_person = self.possibly_anonymize_person(person, other_person)
 
-        sentence += np.random.choice(Dictionary.OTHERS[other_sentiment]).replace('<<NAMES>>',
-                                                                                 other_person)
-        sentence += lowest_score_poi + ', '
-        sentence += np.random.choice(Dictionary.BEGIN_END_SENTENCES["come_on"]).lower() + '. '
+            # score of the other person who rated highest POI which was rated lowest by you
+            other_sentiment = satisfaction_level(other_score / 10)
+
+            sentence += np.random.choice(Dictionary.OTHERS[other_sentiment]).replace('<<NAMES>>',
+                                                                                     other_person)
+            sentence += lowest_score_poi + ', '
+            sentence += np.random.choice(Dictionary.BEGIN_END_SENTENCES["come_on"]).lower() + '. '
 
         return sentence
 
