@@ -59,14 +59,14 @@ class GenerateExplanation:
         # take the POI which was ranked the lowest by you
         lowest_score_poi, lowest_score = Score.get_the_lowest_score(person)
 
-        if lowest_score > 2:
+        if lowest_score > 6:
             return ""
 
         relative_lowest = lowest_score / 10
         sentiment = satisfaction_level(relative_lowest)
         sentence += np.random.choice(Dictionary.OPENING_SENTENCES[sentiment])
         sentence += lowest_score_poi
-        sentence += np.random.choice(Dictionary.BEGIN_END_SENTENCES["but_info"])
+        sentence += np.random.choice(Dictionary.BEGIN_END_SENTENCES["but_info"]).lower()
 
         other_people = copy.deepcopy(self.people)
         other_people.remove(person)
@@ -80,7 +80,7 @@ class GenerateExplanation:
         sentence += np.random.choice(Dictionary.OTHERS[other_sentiment]).replace('<<NAMES>>',
                                                                                  other_person)
         sentence += lowest_score_poi + ', '
-        sentence += np.random.choice(Dictionary.BEGIN_END_SENTENCES["come_on"]) + '. '
+        sentence += np.random.choice(Dictionary.BEGIN_END_SENTENCES["come_on"]).lower() + '. '
 
         return sentence
 
@@ -90,24 +90,26 @@ class GenerateExplanation:
         ##
         ## TODO: This indicates that in final ranking may not be all POI. discuss with a group
         # unless points.include?(highest_score.point_of_interest.id)
-        sentence += np.random.choice(Dictionary.BEGIN_END_SENTENCES["favorite"]).replace('<<NAME>>', favorite_item)
 
         # say something in the case some place is not included
         # TODO: we should check if the left out is the favorite of the person. If not we should have something different
-        if(len(self.ranking) < len(self.scenario)):
+        ranking_strings = [elem.name for elem in self.ranking]
+
+        if favorite_item not in ranking_strings:
+            sentence += np.random.choice(Dictionary.BEGIN_END_SENTENCES["favorite"]).replace('<<NAME>>', favorite_item)
             sentence += 'and ' + np.random.choice(Dictionary.BEGIN_END_SENTENCES["not_included"])
-        sentence += np.random.choice(Dictionary.BEGIN_END_SENTENCES["but_info"])
+            sentence += np.random.choice(Dictionary.BEGIN_END_SENTENCES["but_info"]).lower()
 
-        other_people = copy.deepcopy(self.people)
-        other_people.remove(person)
-        other_score, other_person = Score.get_the_lowest_other_score_poi(other_people, favorite_item)
-        other_sentiment = satisfaction_level(float(other_score)/10)
+            other_people = copy.deepcopy(self.people)
+            other_people.remove(person)
+            other_score, other_person = Score.get_the_lowest_other_score_poi(other_people, favorite_item)
+            other_sentiment = satisfaction_level(float(other_score) / 10)
 
-        other_person = self.possibly_anonymize_person(person, other_person)
+            other_person = self.possibly_anonymize_person(person, other_person)
 
-        sentence += np.random.choice(Dictionary.OTHERS[other_sentiment]).replace('<<NAMES>>', other_person)
-        sentence += favorite_item + ', '
-        sentence += np.random.choice(Dictionary.BEGIN_END_SENTENCES["reason_not_included"])
+            sentence += np.random.choice(Dictionary.OTHERS[other_sentiment]).replace('<<NAMES>>', other_person)
+            sentence += favorite_item + ', '
+            sentence += np.random.choice(Dictionary.BEGIN_END_SENTENCES["reason_not_included"]) + "."
 
         return sentence
 
@@ -138,17 +140,17 @@ class GenerateExplanation:
 
     def create_label_person_group(self, close_person_list, distant_people_num, person_only=False):
         people_word_label = ""
-
-        if len(close_person_list) > 0:
-            people_word_label = "and "
-
-        if distant_people_num > 1:
-            people_word_label += str(distant_people_num) + " other people"
-        else:
-            people_word_label += str(distant_people_num) + " other person"
-
         if not person_only:
-            return close_person_list.join(",") + people_word_label
+            if len(close_person_list) > 1:
+                people_word_label = " and "
+
+            if distant_people_num > 1:
+                people_word_label += str(distant_people_num) + " other people"
+            elif distant_people_num > 0:
+                people_word_label += str(distant_people_num) + " other person"
+
+            if not person_only:
+                return (",").join(close_person_list) + people_word_label
 
         final_label = ""
 
@@ -159,7 +161,7 @@ class GenerateExplanation:
                 if 0 < i < len(close_person_list) - 1:
                     final_label += ", "
 
-                if i == len(close_person_list) - 1:
+                if i == len(close_person_list) - 1 and len(close_person_list) > 1:
                     final_label += " and "
 
                 final_label += person_name
