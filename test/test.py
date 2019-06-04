@@ -24,30 +24,34 @@ for u in users:
 
 list_pois = []
 
-poi1 = POI("McDonald")
+poi1 = POI("Stadium")
 list_pois.append(poi1)
-poi2 = POI("Burger King")
+poi2 = POI("Technical Science Museum")
 list_pois.append(poi2)
-poi3 = POI("Pizza")
+poi3 = POI("HB Brewery")
 list_pois.append(poi3)
-poi4 = POI("Gelateria")
+poi4 = POI("Alte Pinokotech")
 list_pois.append(poi4)
-poi5 = POI("Fagiolata")
+poi5 = POI("Eisbach Surfspot")
 list_pois.append(poi5)
-poi6 = POI("Taqueria")
-list_pois.append(poi6)
 
 print()
 
-p1.poi_ranking = {'McDonald':8, 'Burger King':9, 'Pizza':7, 'Gelateria':6, 'Fagiolata': 6, 'Taqueria':9}
-p2.poi_ranking = {'McDonald':9, 'Burger King':7, 'Pizza':7, 'Gelateria':5, 'Fagiolata': 6, 'Taqueria':10}
-p3.poi_ranking = {'McDonald':10, 'Burger King':9, 'Pizza':8, 'Gelateria':8, 'Fagiolata': 6, 'Taqueria':6}
-p4.poi_ranking = {'McDonald':6, 'Burger King':6, 'Pizza':8, 'Gelateria':9, 'Fagiolata': 10, 'Taqueria':5}
-p5.poi_ranking = {'McDonald':6, 'Burger King':9, 'Pizza':10, 'Gelateria':6, 'Fagiolata': 6, 'Taqueria':9}
-p6.poi_ranking = {'McDonald':6, 'Burger King':8, 'Pizza':10, 'Gelateria':4, 'Fagiolata': 5, 'Taqueria':7}
+# STACY
+p1.poi_ranking = {'Stadium':10, 'Technical Museum':5, 'HB Brewery':8, 'Alte Pinokotek':9, 'Eisbach Surfspot': 5}
+# NICK
+p2.poi_ranking = {'Stadium':8, 'Technical Museum':5, 'HB Brewery':10, 'Alte Pinokotek':7, 'Eisbach Surfspot': 5}
+# CAROLINA
+p3.poi_ranking = {'Stadium':7, 'Technical Museum':3, 'HB Brewery':9, 'Alte Pinokotek':10, 'Eisbach Surfspot': 8}
+# THOMAS
+p4.poi_ranking = {'Stadium':5, 'Technical Museum':10, 'HB Brewery':9, 'Alte Pinokotek':6, 'Eisbach Surfspot': 10}
+# MIKE
+p5.poi_ranking = {'Stadium':6, 'Technical Museum':10, 'HB Brewery':9, 'Alte Pinokotek':4, 'Eisbach Surfspot': 9}
+# VANESSA
+p6.poi_ranking = {'Stadium':10, 'Technical Museum':9, 'HB Brewery':8, 'Alte Pinokotek':10, 'Eisbach Surfspot': 5}
 
 # hard-coded
-ordered_recommended_pois = [poi3, poi2, poi4, poi1, poi6, poi5]
+ordered_recommended_pois = [poi3, poi2, poi4, poi1, poi5]
 
 print("FINAL ORDER")
 for index, place in enumerate(ordered_recommended_pois):
