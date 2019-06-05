@@ -18,10 +18,10 @@ class Score:
 
     @staticmethod
     def get_the_lowest_other_score_poi(people, poi_name):
-        curr_lowest_score = 0
+        curr_lowest_score = 300
         lowest_people = []
         for person in people:
-            if curr_lowest_score < person.poi_ranking[poi_name]:
+            if curr_lowest_score > person.poi_ranking[poi_name]:
                 curr_lowest_score = person.poi_ranking[poi_name]
                 lowest_people = [person.name]
 
