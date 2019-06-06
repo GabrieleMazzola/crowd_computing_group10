@@ -87,3 +87,9 @@ def create_label_anonymous_group(num_all_people):
     if num_all_people > 1:
         return str(num_all_people) + " people from the group"
     return "one person from the group"
+
+
+def find_person_by_name(people_list, person_name):
+    for person in people_list:
+        if person.name == person_name:
+            return person
