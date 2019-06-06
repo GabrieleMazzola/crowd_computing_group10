@@ -1,4 +1,4 @@
-from explanation.person.closeness import Closeness
+from explanation.person.relationship import Relationship
 
 
 class Person:
@@ -11,7 +11,7 @@ class Person:
     def __eq__(self, obj):
         return self.name == obj.name
 
-    def add_relationship(self, person, closeness_level=Closeness.VERY_CLOSE):
+    def add_relationship(self, person, closeness_level=Relationship.CASUAL):
         self.relationships[person.name] = closeness_level
 
     def add_dummy_relationships(self, people):

@@ -1,13 +1,15 @@
 import copy
 
-from explanation.dictionary import Dictionary
-from explanation.explanation_type import ExplanationType
-from explanation.person.closeness import Closeness
+from explanation.explanations.dictionary import Dictionary
+from explanation.explanations.explanation_type import ExplanationType
+from explanation.person.close_person_mode import ClosePersonMode
+from explanation.person.relationship import Relationship
 from explanation.util.satisfaction_util import satisfaction_level, satisfaction_level_user
 import numpy as np
 
 from explanation.util.score_util import Score
-from explanation.util.util import print_ordered_list
+from explanation.util.util import prepare_close_people, create_label_person_group, create_label_person_only, \
+    create_label_anonymous_group, create_label_anonymous
 
 
 class GenerateExplanation:
@@ -15,17 +17,17 @@ class GenerateExplanation:
 
     MAX_POI_SCORE = 10
 
-    def __init__(self, pois, ratings, people, explanation_type):
+    def __init__(self, pois, ratings, people, explanation_type, close_people_mode):
         self.scenario = pois
         self.ranking = ratings
         self.max_score = Score.calculate_max_score(len(ratings))
         self.people = people
         self.explanations = {}
         self.explanation_type = explanation_type
+        self.close_people_mode = close_people_mode
 
     def generate_explanation(self):
         for person in self.people:
-            # print_ordered_list(person)
             self.generate_personal_explanation(person)
 
     def generate_personal_explanation(self, person):
@@ -117,55 +119,18 @@ class GenerateExplanation:
         return sentence
 
     def possibly_anonymize_person(self, target_person, person_name_list):
-        close_person_list, num_distant_people = self.prepare_close_people(target_person, person_name_list)
+        close_person_list, num_distant_people = prepare_close_people(target_person, person_name_list,
+                                                                     self.close_people_mode)
         num_all_people = len(person_name_list)
 
-        if self.explanation_type == ExplanationType.ANONYMOUS:
-            if num_all_people > 1:
-                return "some people from the group"
-            return "someone from the group"
-
         if self.explanation_type == ExplanationType.ANONYMOUS_GROUP:
-            if num_all_people > 1:
-                return str(num_all_people) + " people from the group"
-            return "one person from the group"
+            return create_label_anonymous_group(num_all_people)
 
         if self.explanation_type == ExplanationType.PERSON_ONLY:
-            return self.create_label_person_group(close_person_list, num_distant_people, person_only=True)
+            return create_label_person_only(close_person_list, num_distant_people)
 
         # Lastly create explanation having both close persons and anonymized not close ones
-        return self.create_label_person_group(close_person_list, num_distant_people, person_only=False)
+        if self.explanation_type == ExplanationType.PERSON_GROUP:
+            return create_label_person_group(close_person_list, num_all_people)
 
-    def prepare_close_people(self, target_person, person_name_list):
-        close_people = [person for person in person_name_list if
-                        target_person.relationships[person] == Closeness.VERY_CLOSE]
-        return list(set(close_people)), len(person_name_list) - len(close_people)
-
-    def create_label_person_group(self, close_person_list, distant_people_num, person_only=False):
-        people_word_label = ""
-        if not person_only:
-            if len(close_person_list) > 1:
-                people_word_label = " and "
-
-            if distant_people_num > 1:
-                people_word_label += str(distant_people_num) + " other people"
-            elif distant_people_num > 0:
-                people_word_label += str(distant_people_num) + " other person"
-
-            if not person_only:
-                return (",").join(close_person_list) + people_word_label
-
-        final_label = ""
-
-        if person_only:
-            for i in range(len(close_person_list)):
-                person_name = close_person_list[i]
-
-                if 0 < i < len(close_person_list) - 1:
-                    final_label += ", "
-
-                if i == len(close_person_list) - 1 and len(close_person_list) > 1:
-                    final_label += " and "
-
-                final_label += person_name
-            return final_label
+        return create_label_anonymous(num_all_people)
