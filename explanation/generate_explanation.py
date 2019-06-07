@@ -162,13 +162,17 @@ class GenerateExplanation:
             final_label += ", "
 
         for i, label in enumerate(label_list):
-            if i < len(label_list) - 2:
+            if self.if_last_but_one(label_list, i):
                 final_label += ", "
-            if i < len(label_list) - 1:
+            else:
                 final_label += "and"
+
             final_label += label
 
         return final_label
+
+    def if_last_but_one(self, label_list, i):
+        return i < len(label_list) - 2
 
     def add_close_person_opinion(self, person, close_person, item_name):
         person_sentiment = satisfaction_level(person.poi_ranking[item_name] / 10)
