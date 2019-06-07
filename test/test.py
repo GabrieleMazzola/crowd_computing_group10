@@ -38,7 +38,7 @@ poi2 = POI("Technical Science Museum")
 list_pois.append(poi2)
 poi3 = POI("HB Brewery")
 list_pois.append(poi3)
-poi4 = POI("Alte Pinokotech")
+poi4 = POI("Alte Pinakothek")
 list_pois.append(poi4)
 poi5 = POI("Eisbach Surfspot")
 list_pois.append(poi5)
@@ -66,6 +66,7 @@ p1.add_relationship(p6, Relationship.CLOSE)
 p6.add_relationship(p6, Relationship.CLOSE)
 
 # Thomas is good friends with all
+# todo: see again the relationship of Thomas with everyone
 for u in users:
     if u.name != "Thomas":
         u.add_relationship(p4, Relationship.CLOSE)
@@ -75,9 +76,17 @@ for u in users:
 p4.add_relationship(p3, Relationship.ROMANTIC)
 p3.add_relationship(p4, Relationship.ROMANTIC)
 
-# Mike and Thomas are bffs ( BROS before hoes!)
+# Mike and Thomas are bffs (BROS before hoes!)
 p4.add_relationship(p5, Relationship.MOST_IMPORTANT)
 p5.add_relationship(p4, Relationship.MOST_IMPORTANT)
+
+# Mike and Nick are also bffs
+p2.add_relationship(p5, Relationship.MOST_IMPORTANT)
+p5.add_relationship(p2, Relationship.MOST_IMPORTANT)
+
+# for the transitivity property, also Thomas and Nick are bffs
+p2.add_relationship(p4, Relationship.MOST_IMPORTANT)
+p4.add_relationship(p2, Relationship.MOST_IMPORTANT)
 
 print("FINAL ORDER")
 for index, place in enumerate(ordered_recommended_pois):

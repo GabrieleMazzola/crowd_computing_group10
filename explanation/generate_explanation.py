@@ -52,7 +52,7 @@ class GenerateExplanation:
         return opening
 
     def generate_overall_satisfaction(self, relative_score):
-        sentiment = satisfaction_level_user(relative_score, len(self.ranking))
+        sentiment = satisfaction_level_user(relative_score, len(self.ranking), len(self.scenario))
         sentence = np.random.choice(Dictionary.OPENING_SENTENCES[sentiment]).lower()
         sentence += 'the recommended sequence. '
         return sentence

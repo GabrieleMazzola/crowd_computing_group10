@@ -11,7 +11,7 @@ class Dictionary:
         "consider_word": ['You may also consider ', 'You may also take into account'],
         "stubborn_word": ['resolute ', 'adamant ', 'wilful'],
         "come_on": ['so why not give it a chance', 'so it may be fun for you too'],
-        "intro_hi": ['Hi there ', 'Thanks for asking ', 'Hello ', 'As you wonder ', 'Hi ', 'Hey ', 'Yoooo '],
+        "intro_hi": ['Hi there ', 'Thanks for asking ', 'Hello ', 'As you wonder ', 'Hi ', 'Hey '],
         "item": ['this recommendation ', 'this point of interest ', 'our suggestion '],
         "trust_positive_end": ['too ', 'also ', 'as well '],
         "trust_negative_end": ['so you may find something new ', 'and you can normally rely on '],

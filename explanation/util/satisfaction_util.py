@@ -1,5 +1,5 @@
 from explanation.satisfaction.satisfaction import Satisfaction
-
+import math
 
 def satisfaction_level(score):
     if score < 0.17:
@@ -16,16 +16,24 @@ def satisfaction_level(score):
         return Satisfaction.VERY_STRONG
 
 
-def satisfaction_level_user(score, len_list):
-    if score < len_list:
+def satisfaction_level_user(score, len_list, original_length):
+    score = score - original_length + len_list
+    if len_list % 2 == 0:
+        maximum = len_list * len_list/2
+    else:
+        maximum = len_list * math.floor(len_list/2) + math.floor(len_list/2)
+
+    interval = maximum*1.0/len_list
+
+    if score < interval:
         return Satisfaction.VERY_STRONG
-    if len_list <= score < 2*len_list:
+    if interval <= score < 2*interval:
         return Satisfaction.STRONG
-    if 2*len_list <= score < 3*len_list:
+    if 2*interval <= score < 3*interval:
         return Satisfaction.MEDIUM
-    if 3*len_list <= score < 4*len_list:
+    if 3*interval <= score < 4*interval:
         return Satisfaction.INDIFFERENT
-    if 4*len_list <= score < 5*len_list:
+    if 4*interval <= score < 5*interval:
         return Satisfaction.WEAK
     else:
         return Satisfaction.VERY_WEAK
