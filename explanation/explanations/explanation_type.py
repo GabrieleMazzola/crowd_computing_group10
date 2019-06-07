@@ -11,4 +11,6 @@ class ExplanationType(Enum):
     #close person + group
     PERSON_GROUP = 4
 
+    ALL_PERSON = 5
+
 

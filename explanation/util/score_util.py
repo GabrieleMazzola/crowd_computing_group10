@@ -14,7 +14,7 @@ class Score:
             if curr_highest_score == person.poi_ranking[poi_name]:
                 highest_people.append(person.name)
 
-        return curr_highest_score, highest_people
+        return curr_highest_score, list(set(highest_people))
 
     @staticmethod
     def get_the_lowest_other_score_poi(people, poi_name):
@@ -28,7 +28,7 @@ class Score:
             if curr_lowest_score == person.poi_ranking[poi_name]:
                 lowest_people.append(person.name)
 
-        return curr_lowest_score, lowest_people
+        return curr_lowest_score, list(set(lowest_people))
 
     @staticmethod
     def get_the_lowest_score(person):

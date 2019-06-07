@@ -27,7 +27,7 @@ def are_more_distant(num_all_people, close_person_list_length):
 
 
 def prepare_close_people(target_person, person_name_list, mode=ClosePersonMode.ALL_CLOSE):
-    included_relationship_types = [Relationship.MOST_IMPORTANT]
+    included_relationship_types = []
     if mode == ClosePersonMode.ALL_CLOSE:
         included_relationship_types.append(Relationship.CLOSE)
         included_relationship_types.append(Relationship.ROMANTIC)
@@ -42,39 +42,36 @@ def prepare_close_people(target_person, person_name_list, mode=ClosePersonMode.A
 
 
 def create_label_person_group(close_person_list, num_all_people):
-    final_label = ""
+    if num_all_people - len(close_person_list) == 0:
+        return create_label_person_only(close_person_list, num_all_people)
 
-    for i in range(len(close_person_list)):
-        person_name = close_person_list[i]
+    if len(close_person_list) == 0:
+        return create_label_anonymous_group(num_all_people)
 
-        if not is_last_but_one(num_all_people, len(close_person_list), i):
-            final_label += ", "
+    to_return_label = ""
+    for i, close_person in enumerate(close_person_list):
+        to_return_label += close_person
+        if i == len(close_person_list)-1:
+            to_return_label += " and "
+        else:
+            to_return_label += ", "
 
-        if is_last_but_one(num_all_people, len(close_person_list), i) and not are_more_distant(num_all_people, len(
-                close_person_list)):
-            final_label += " and "
-
-        final_label += person_name
-
-    if are_more_distant(num_all_people, len(close_person_list)) and len(close_person_list) > 0:
-        final_label += " and "
-
-    final_label += create_label_anonymous_group(num_all_people)
-
-    return final_label
+    return to_return_label + create_label_anonymous_group(num_all_people - len(close_person_list))
 
 
 def create_label_person_only(close_person_list, distant_people_num):
-    people_word_label = ""
-    if len(close_person_list) > 1:
-        people_word_label = " and "
+    if len(close_person_list) == 0:
+        return create_label_anonymous(len(close_person_list) + distant_people_num)
 
-    if distant_people_num > 1:
-        people_word_label += str(distant_people_num) + " other people from a group"
-    elif distant_people_num > 0:
-        people_word_label += str(distant_people_num) + " other person from a group"
+    to_return_label = ""
 
-    return (",").join(close_person_list) + people_word_label
+    for i, close_person in enumerate(close_person_list):
+        to_return_label += close_person
+        if if_last_but_one(close_person_list, i):
+            to_return_label += " and "
+        elif i < len(close_person_list) - 2:
+            to_return_label += ", "
+    return to_return_label
 
 
 def create_label_anonymous(num_all_people):
@@ -93,3 +90,7 @@ def find_person_by_name(people_list, person_name):
     for person in people_list:
         if person.name == person_name:
             return person
+
+
+def if_last_but_one(label_list, i):
+    return i == len(label_list) - 2

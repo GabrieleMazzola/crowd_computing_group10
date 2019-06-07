@@ -9,7 +9,7 @@ import numpy as np
 
 from explanation.util.score_util import Score
 from explanation.util.util import prepare_close_people, create_label_person_group, create_label_person_only, \
-    create_label_anonymous_group, create_label_anonymous, find_person_by_name
+    create_label_anonymous_group, create_label_anonymous, find_person_by_name, if_last_but_one
 
 
 class GenerateExplanation:
@@ -136,9 +136,11 @@ class GenerateExplanation:
         if self.explanation_type == ExplanationType.PERSON_ONLY:
             return create_label_person_only(close_person_list, num_distant_people)
 
-        # Lastly create explanation having both close persons and anonymized not close ones
         if self.explanation_type == ExplanationType.PERSON_GROUP:
             return create_label_person_group(close_person_list, num_all_people)
+
+        if self.explanation_type == ExplanationType.ALL_PERSON:
+            return create_label_person_only(person_name_list, 0)
 
         return create_label_anonymous(num_all_people)
 
@@ -162,17 +164,13 @@ class GenerateExplanation:
             final_label += ", "
 
         for i, label in enumerate(label_list):
-            if self.if_last_but_one(label_list, i):
-                final_label += ", "
-            else:
-                final_label += "and"
-
             final_label += label
+            if i < len(label_list) - 2:
+                final_label += ", "
+            elif i == len(label_list) - 2:
+                final_label += " and "
 
         return final_label
-
-    def if_last_but_one(self, label_list, i):
-        return i < len(label_list) - 2
 
     def add_close_person_opinion(self, person, close_person, item_name):
         person_sentiment = satisfaction_level(person.poi_ranking[item_name] / 10)

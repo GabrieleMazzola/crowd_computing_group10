@@ -67,26 +67,23 @@ p6.add_relationship(p6, Relationship.CLOSE)
 
 # Thomas is good friends with all
 # todo: see again the relationship of Thomas with everyone
-for u in users:
-    if u.name != "Thomas":
-        u.add_relationship(p4, Relationship.CLOSE)
-        p4.add_relationship(u, Relationship.CLOSE)
+
 
 # Thomas and Carolina are a couple
 p4.add_relationship(p3, Relationship.ROMANTIC)
 p3.add_relationship(p4, Relationship.ROMANTIC)
 
 # Mike and Thomas are bffs (BROS before hoes!)
-p4.add_relationship(p5, Relationship.MOST_IMPORTANT)
-p5.add_relationship(p4, Relationship.MOST_IMPORTANT)
+p4.add_relationship(p5, Relationship.CLOSE)
+p5.add_relationship(p4, Relationship.CLOSE)
 
 # Mike and Nick are also bffs
-p2.add_relationship(p5, Relationship.MOST_IMPORTANT)
-p5.add_relationship(p2, Relationship.MOST_IMPORTANT)
+p2.add_relationship(p5, Relationship.CLOSE)
+p5.add_relationship(p2, Relationship.CLOSE)
 
 # for the transitivity property, also Thomas and Nick are bffs
-p2.add_relationship(p4, Relationship.MOST_IMPORTANT)
-p4.add_relationship(p2, Relationship.MOST_IMPORTANT)
+p2.add_relationship(p4, Relationship.CLOSE)
+p4.add_relationship(p2, Relationship.CLOSE)
 
 print("FINAL ORDER")
 for index, place in enumerate(ordered_recommended_pois):
