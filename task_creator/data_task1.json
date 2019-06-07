@@ -1,0 +1,36 @@
+{
+    "POIs": ["HB Brewery", "Stadium"],
+    "itinerary": ["Stadium", "HB Brewery"],
+    "members": {
+        "thomas": {
+            "relationships": "He is best friend with Mike and Thomas",
+            "ratings": [10, 8],
+            "variants": [
+                "asckasnckjasnckasjcnkjca",
+                "asckasnckjasnckasjcnkjca",
+                "asckasnckjasnckasjcnkjca",
+                "asckasnckjasnckasjcnkjca"
+            ]
+        },
+        "nick": {
+            "relationships": "",
+            "ratings": [10, 8],
+            "variants": [
+                "asckasnckjasnckasjcnkjca",
+                "asckasnckjasnckasjcnkjca",
+                "asckasnckjasnckasjcnkjca",
+                "asckasnckjasnckasjcnkjca"
+            ]
+        },
+        "stacy": {
+            "relationships": "",
+            "ratings": [10, 8],
+            "variants": [
+                "asckasnckjasnckasjcnkjca",
+                "asckasnckjasnckasjcnkjca",
+                "asckasnckjasnckasjcnkjca",
+                "asckasnckjasnckasjcnkjca"
+            ]
+        }
+    }
+}
