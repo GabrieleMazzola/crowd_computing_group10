@@ -1,36 +1,75 @@
 {
-    "POIs": ["HB Brewery", "Stadium"],
-    "itinerary": ["Stadium", "HB Brewery"],
+    "job_title": "Explain it!", 
+    "POIs": ["HB Brewery", "Stadium", "Technical Museum", "Alte Pinokotek", "Eisbach Surfspot"],
+    "itinerary": ["HB Brewery", "Eisbach Surfspot", "Stadium"],
     "members": {
-        "thomas": {
-            "relationships": "He is best friend with Mike and Thomas",
-            "ratings": [10, 8],
+        "Nick": {
+            "description": "25-year-old German Philology student from Shanghai. He plays electric guitar and loves spending time listening to live music with friends. He wants to go to the HB brewery as well as the Hard Rock Cafe.",
+            "relationships": "Nick has a close relationship in the group with Mike and Thomas. They are best friends.",
+            "ratings": [10, 8, 7, 7, 5],
             "variants": [
-                "asckasnckjasnckasjcnkjca",
-                "asckasnckjasnckasjcnkjca",
-                "asckasnckjasnckasjcnkjca",
-                "asckasnckjasnckasjcnkjca"
+                "Hi Nick, we have predicted that you will be just basically okay with the recommended sequence. You will be just basically okay with Eisbach Surfspot, despite that, someone from the group would love to see Eisbach Surfspot, so what about a chance to it?",
+                "Hello Nick, we believe that you will be somewhat okay with the recommended sequence. You will be just basically okay with Eisbach Surfspot, despite that, one person from the group would love to see Eisbach Surfspot, so why not give it a chance. We know BMW Museum is your favorite and it is not in the recommended list, having said that, one person from the group probably will not really like BMW Museum, so to keep everyone satisfied it was left out from the final choice.",
+                "Hello Nick, we think that you will be somewhat okay with the recommended sequence. You will be just basically okay with Eisbach Surfspot, despite that, Thomas would love to see Eisbach Surfspot, so why not give it a chance. We know your top choice has been BMW Museum and it is not in the output of the algorithm, having said that, Thomas will not be really happy with BMW Museum, so you will not see it in the final list for satisfaction maximization purposes.",
+                "Hey Nick, we believe that you will be somewhat okay with the recommended sequence. You will be somewhat okay with Eisbach Surfspot, having said that, Thomas would love to see Eisbach Surfspot, so it could be a revelation for you."
             ]
         },
-        "nick": {
-            "relationships": "",
-            "ratings": [10, 8],
+        "Thomas": {
+            "description": "25-year-old Physics student from Chicago. He loves surfing, so he would like to visit a famous surfing spot, Eisbach, and have a beer in one of the historical bars.",
+            "relationships": "Thomas has a close relationship in the group with Carolina, Nick and Mike. Carolina is his girlfriend and Nick and Mike are his best friends.",
+            "ratings": [9, 5, 10, 6, 10],
             "variants": [
-                "asckasnckjasnckasjcnkjca",
-                "asckasnckjasnckasjcnkjca",
-                "asckasnckjasnckasjcnkjca",
-                "asckasnckjasnckasjcnkjca"
+                "Hi there Thomas, we believe that you will enjoy the recommended sequence. We know Technical Museum is your favorite and it is not in the output of the algorithm, having said that, someone from the group probably will not really like Technical Museum, so to keep everyone satisfied it was left out from the final choice.",
+                "Thanks for asking Thomas, our algorithm suggested that you will like the recommended sequence. We know your top choice has been Technical Museum and it is not in the output of the algorithm, still, one person from the group probably will not really like Technical Museum, so the algorithm opted to leave it out to make happy as much people as possible.",
+                "Hello Thomas, we have predicted that you will enjoy the recommended sequence. We know your top choice has been Technical Museum and it is not in the recommended list, still, Carolina probably will not really like Technical Museum, so it was left out to maximize group satisfaction.",
+                "Hey Thomas, we believe that you will enjoy the recommended sequence. We know your top choice has been Technical Museum and it is not included in the recommendation, still, Carolina will not be really happy with Technical Museum, so the algorithm opted to leave it out to make happy as much people as possible.",
+                "As you wonder Thomas, we think that you will like the recommended sequence. We know you love Technical Museum and it is not in the recommended list, despite that, Carolina will not be really happy with Technical Museum, so you will not see it in the final list for satisfaction maximization purposes.",
+                "Hi there Thomas, we believe that you will enjoy the recommended sequence. We know your top choice has been Alte Pinakothek and it is not in the recommended list, despite that, Mike probably will not really like Alte Pinakothek, so it is not in the final list to maximize group satisfaction."
             ]
         },
-        "stacy": {
-            "relationships": "",
-            "ratings": [10, 8],
+        "Mike": {
+            "description": "23-year-old Mechanical Engineering student from Chicago. He likes swimming, going to parties with his friends and travelling. He is scared of heights.",
+            "relationships": "Mike has a close relationship in the group with Thomas and Nick. They are best friends.",
+            "ratings": [9, 6, 10, 3, 9],
             "variants": [
-                "asckasnckjasnckasjcnkjca",
-                "asckasnckjasnckasjcnkjca",
-                "asckasnckjasnckasjcnkjca",
-                "asckasnckjasnckasjcnkjca"
+                "Hey Mike, our algorithm suggested that you will be just basically okay with the recommended sequence. We know BMW Museum is your favorite and it is not in the system's choices, having said that, someone from the group will not be really happy with BMW Museum, so it was left out to maximize group satisfaction.",
+                "Hi there Mike, we think that you will be just basically okay with the recommended sequence. We know you love BMW Museum and it is not in the system's choices, having said that, one person from the group probably will not really like BMW Museum, so it was left out to maximize group satisfaction.",
+                "As you wonder Mike, we believe that you will be somewhat okay with the recommended sequence. We know you love BMW Museum and it is not in the system's choices, having said that, Thomas probably will not really like BMW Museum, so it is not in the final list to maximize group satisfaction.",
+                "Hi there Mike, we have predicted that you will be just basically okay with the recommended sequence. We know BMW Museum is your favorite and it is not included in the recommendation, still, Thomas probably will not really like BMW Museum, so you will not see it in the final list for satisfaction maximization purposes."
             ]
+        },
+        "Stacey": {
+            "description": "24-year-old Psychology student from Idaho. In high school, she used to be the head cheerleader.This is her first time staying in a country other than the USA. She prefers drinking wine rather than beer.",
+            "relationships": "Stacy has a close relationship in the group with Vanessa. They are close friends, as they met 2 years ago during summer and since then they travel a lot together.",
+            "ratings": [8, 10, 7, 9, 5],
+            "variants": [
+                "Thanks for asking Stacey, our algorithm suggested that you will like the recommended sequence. You will be just basically okay with Eisbach Surfspot, having said that, someone from the group would cherish Eisbach Surfspot, so what about a chance to it?",
+                "Thanks for asking Stacey, our algorithm suggested that you will like the recommended sequence. You will be somewhat okay with Eisbach Surfspot, still, one person from the group would love to see Eisbach Surfspot, so what about a chance to it?",
+                "Hello Stacey, our algorithm suggested that you will enjoy the recommended sequence. You and Vanessa will be somewhat okay with Eisbach Surfspot, still, one person from the group would love to see Eisbach Surfspot, so it may be fun for you too.",
+                "As you wonder Stacey, we think that you will enjoy the recommended sequence. You will be somewhat okay with Eisbach Surfspot, having said that, Thomas would love to see Eisbach Surfspot, so what about a chance to it?"
+            ]
+        },
+        "Vanessa": {
+            "description": "22-year-old Computer Science student from France. She did her bachelor in the USA, where she met Stacy. She likes football (supports Bayern Munich) and is interested in art.",
+            "relationships": "Vanessa has a close relationship in the group with Stacey. They are close friends, as they met 2 years ago during summer and since then they travel a lot together.",
+            "ratings": [8, 10, 9, 10, 5],
+            "variants": [
+                "Hey Vanessa, we believe that you probably will not really like the recommended sequence. You will be just basically okay with Eisbach Surfspot, despite that, someone from the group would cherish Eisbach Surfspot, so it could be a revelation for you.",
+                "Hi Vanessa, we think that you probably will not really like the recommended sequence. You will be just basically okay with Eisbach Surfspot, still, one person from the group would love to see Eisbach Surfspot, so it may be fun for you too. We know your top choice has been Alte Pinokotek and it is not included in the recommendation, having said that, one person from the group probably will not really like Alte Pinokotek, so the algorithm opted to leave it out to make happy as much people as possible.",
+                "As you wonder Vanessa, our algorithm suggested that you will not be really happy with the recommended sequence. You will be just basically okay with Eisbach Surfspot, still, one person from the group would love to see Eisbach Surfspot, so it could be a revelation for you. We know your top choice has been Alte Pinokotek and it is not in the system's choices, having said that, one person from the group will not be really happy with Alte Pinokotek, so it was left out to maximize group satisfaction.",
+                "Thanks for asking Vanessa, our algorithm suggested that you probably will not really like the recommended sequence. You will be just basically okay with Eisbach Surfspot, having said that, Thomas would cherish Eisbach Surfspot, so why not give it a chance. We know Alte Pinokotek is your favorite and it is not in the recommended list, still, Mike probably will not really like Alte Pinokotek, so it was left out to maximize group satisfaction."
+                ]
+        },
+        "Carolina": {
+            "description": "24-year-old Mathematics student from Munich, in charge of organizing the logistics of the trip. She has been to the BMW museum before and found it boring, so she is not interested in visiting again. She is up for (re-)visiting most of the other POIs, especially the galleries.",
+            "relationships": "Carolina has a close relationship in the group with Thomas. He is her boyfriend.",
+            "ratings": [9, 5, 3, 10, 8],
+            "variants": [
+                "Hey Carolina, we believe that you will love the recommended sequence. We know you love Alte Pinokotek and it is not in the output of the algorithm, despite that, someone from the group will not be really happy with Alte Pinokotek, so you will not see it in the final list for satisfaction maximization purposes.",
+                "As you wonder Carolina, our algorithm suggested that you will love the recommended sequence. We know you love Alte Pinokotek and it is not in the system's choices, having said that, one person from the group probably will not really like Alte Pinokotek, so to keep everyone satisfied it was left out from the final choice.",
+                "Hello Carolina, we believe that you will cherish the recommended sequence. We know you love Alte Pinokotek and it is not included in the recommendation, having said that, one person from the group will not be really happy with Alte Pinokotek, so to keep everyone satisfied it was left out from the final choice.",
+                "As you wonder Carolina, our algorithm suggested that you will love the recommended sequence. We know you love Alte Pinokotek and it is not in the system's choices, still, Mike probably will not really like Alte Pinokotek, so you will not see it in the final list for satisfaction maximization purposes."
+                ]
         }
     }
 }
